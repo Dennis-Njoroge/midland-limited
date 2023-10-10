@@ -7,25 +7,33 @@ require_once "../database/conn.php";
 		$supplierId	 	 = isset($_POST['supplier_id']) ? e($_POST['supplier_id']) : null;
 
         $result['read'] = array();
-        if ($supplierId){
+//        if ($supplierId){
+//            $query = mysqli_query($conn,
+//                "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name
+//                    FROM purchases_tb p
+//                        JOIN supplier_tb s ON p.supplier_id = s.id
+//                        JOIN product_tb prod ON p.prod_id = prod.prod_id
+//                        WHERE ('$supplierId' IS NULL OR p.supplier_id = '$supplierId')
+//                    ORDER BY p.create_on DESC"
+//            );
+//        }
+//        else{
+//            $query = mysqli_query($conn,
+//                "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name
+//                    FROM purchases_tb p
+//                        JOIN supplier_tb s ON p.supplier_id = s.id
+//                        JOIN product_tb prod ON p.prod_id = prod.prod_id
+//                    ORDER BY p.create_on DESC"
+//            );
+//        }
             $query = mysqli_query($conn,
                 "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name 
                     FROM purchases_tb p 
                         JOIN supplier_tb s ON p.supplier_id = s.id 
                         JOIN product_tb prod ON p.prod_id = prod.prod_id
-                        WHERE p.supplier_id = '$supplierId'
+                        WHERE (COALESCE('$supplierId', '') = '' OR p.supplier_id = '$supplierId')
                     ORDER BY p.create_on DESC"
             );
-        }
-        else{
-            $query = mysqli_query($conn,
-                "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name 
-                    FROM purchases_tb p 
-                        JOIN supplier_tb s ON p.supplier_id = s.id 
-                        JOIN product_tb prod ON p.prod_id = prod.prod_id
-                    ORDER BY p.create_on DESC"
-            );
-        }
         if(mysqli_num_rows($query)>0){
                 while($row = mysqli_fetch_assoc($query)){
                     $h['id'] 			  	 = $row['id'];
@@ -73,7 +81,7 @@ require_once "../database/conn.php";
                                     ELSE available_qty
                                 END,
                                 final_price_per_unit = CASE
-                                    WHEN '$price' IS NOT NULL THEN '$price'
+                                    WHEN   THEN '$price'
                                     ELSE final_price_per_unit
                                 END
                             WHERE id = '$purchaseId'");

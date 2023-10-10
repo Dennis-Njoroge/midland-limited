@@ -2,13 +2,15 @@
 use yii\helpers\Html;
 use rce\material\widgets\Noti;
 use rce\material\Assets;
+use kartik\select2\Select2Asset;
+
 if (Yii::$app->controller->action->id === 'login') {
     echo $this->render(
         'main-login',
         ['content' => $content]
     );
 }
-else if (Yii::$app->controller->action->id === 'faq'|| Yii::$app->controller->id === 'product' ||Yii::$app->controller->id === 'pick-up-points') {
+else if (Yii::$app->controller->action->id === 'faq'|| Yii::$app->controller->id === 'product' || Yii::$app->controller->id === 'purchases' ||Yii::$app->controller->id === 'pick-up-points') {
     echo $this->render(
         'content',
         ['content' => $content]
@@ -24,6 +26,8 @@ if (class_exists('backend\assets\AppAsset')) {
 }
 $bundle = Assets::register($this);
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/ricar2ce/yii2-material-theme/assets');
+
+Select2Asset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

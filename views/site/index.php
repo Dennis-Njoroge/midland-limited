@@ -101,7 +101,7 @@ $messages = \app\models\Feedback::find() -> where(['status'=>'unread'])->count()
                             ],
                         ];
                         echo \onmotion\apexcharts\ApexchartsWidget::widget([
-                            'type' => 'area', // default area
+                            'type' => 'bar', // default area
                             'height' => '400', // default 350
                             'chartOptions' => [
                                 'chart' => [

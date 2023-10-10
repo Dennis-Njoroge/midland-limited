@@ -5,21 +5,22 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 
 $this->title = 'Dashboard';
-$customers = \app\models\Customer::find()->all();
-$users = \app\models\Users::find()->all();
-$employees = \app\models\Employee::find()->all();
-$messages = \app\models\Feedback::findAll(['status'=>'unread']);
+$customers = \app\models\Customer::find()->count();
+$suppliers = \app\models\Supplier::find()->count();
+$users = \app\models\Users::find()->count();
+$employees = \app\models\Employee::find()->count();
+$messages = \app\models\Feedback::find() -> where(['status'=>'unread'])->count();
 ?>
 <div class="site-index">
     <div class="body-content">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-3 col-md-4 col-sm-12">
                 <?php Card::begin([
                     'header'=>'header-icon',
                     'type'=>'card-stats',
                     'icon'=>'<i class="material-icons">people</i>',
                     'color'=>'info',
-                    'title'=>count($customers),
+                    'title'=>$customers,
                     'subtitle'=>'Total Customers',
                     'footer'=>'<div class="stats">
                             <i class="material-icons text-warning">persons</i>
@@ -27,13 +28,13 @@ $messages = \app\models\Feedback::findAll(['status'=>'unread']);
                           </div>',
                 ]); Card::end(); ?>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-3 col-md-4 col-sm-12">
                 <?php Card::begin([
                     'header'=>'header-icon',
                     'type'=>'card-stats',
                     'icon'=>'<i class="material-icons">people</i>',
                     'color'=>'success',
-                    'title'=>count($employees),
+                    'title'=>$employees,
                     'subtitle'=>'Total Staff',
                     'footer'=>'<div class="stats">
                             <i class="material-icons text-success">persons</i>
@@ -41,13 +42,27 @@ $messages = \app\models\Feedback::findAll(['status'=>'unread']);
                           </div>',
                 ]); Card::end(); ?>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <?php Card::begin([
                     'header'=>'header-icon',
                     'type'=>'card-stats',
                     'icon'=>'<i class="material-icons">people</i>',
-                    'color'=>'danger',
-                    'title'=>count($users),
+                    'color'=>'warning',
+                    'title'=>$suppliers,
+                    'subtitle'=>'Total Suppliers',
+                    'footer'=>'<div class="stats">
+                            <i class="material-icons text-warning">persons</i>
+                            <a href="'.Url::to(['/supplier']).'" class="text-warning">View Suppliers</a>
+                          </div>',
+                ]); Card::end(); ?>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <?php Card::begin([
+                    'header'=>'header-icon',
+                    'type'=>'card-stats',
+                    'icon'=>'<i class="material-icons">people</i>',
+                    'color'=>'secondary',
+                    'title'=>$users,
                     'subtitle'=>'User Accounts',
                     'footer'=>'<div class="stats">
                            <i class="material-icons text-danger">people</i>
@@ -86,7 +101,7 @@ $messages = \app\models\Feedback::findAll(['status'=>'unread']);
                             ],
                         ];
                         echo \onmotion\apexcharts\ApexchartsWidget::widget([
-                            'type' => 'bar', // default area
+                            'type' => 'area', // default area
                             'height' => '400', // default 350
                             'chartOptions' => [
                                 'chart' => [

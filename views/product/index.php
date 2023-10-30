@@ -31,15 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header card-header-success">
-                    <h4 class="card-title">Products</h4>
-                    <p class="card-category">View all the products</p>
-                </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <p class="pull-left">
                                 <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
+                            </p>
+                            <p class="pull-left">
+                                <?= Html::a('Create Purchase', ['purchase/create'], ['class' => 'btn btn-success ']) ?>
                             </p>
                             <?php ExportMenu::widget([
                                 'dataProvider' => $dataProvider,

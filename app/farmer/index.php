@@ -5,6 +5,7 @@ require_once "../database/conn.php";
 	switch ($action) {
         case 'view_purchases':
 		$supplierId	 	 = isset($_POST['supplier_id']) ? e($_POST['supplier_id']) : null;
+		$status	 	 = isset($_POST['status']) ? e($_POST['status']) : null;
 
         $result['read'] = array();
 //        if ($supplierId){
@@ -32,12 +33,14 @@ require_once "../database/conn.php";
                         JOIN supplier_tb s ON p.supplier_id = s.id 
                         JOIN product_tb prod ON p.prod_id = prod.prod_id
                         WHERE (COALESCE('$supplierId', '') = '' OR p.supplier_id = '$supplierId')
+                        AND (COALESCE('$status', '') = '' OR p.status = '$status')
                     ORDER BY p.create_on DESC"
             );
         if(mysqli_num_rows($query)>0){
                 while($row = mysqli_fetch_assoc($query)){
                     $h['id'] 			  	 = $row['id'];
                     $h['purchase_no'] 	 	 	 = $row['purchase_no'];
+                    $h['payment_code'] 	 	 	 = $row['payment_code'];
                     $h['supplier_id'] 	 	 	 = $row['supplier_id'];
                     $h['prod_id'] 	 	 	 = $row['prod_id'];
                     $h['prod_name'] 	 	 	 = $row['prod_name'];
@@ -81,7 +84,7 @@ require_once "../database/conn.php";
                                     ELSE available_qty
                                 END,
                                 final_price_per_unit = CASE
-                                    WHEN   THEN '$price'
+                                    WHEN '$price' IS NOT NULL  THEN '$price'
                                     ELSE final_price_per_unit
                                 END
                             WHERE id = '$purchaseId'");
@@ -99,6 +102,7 @@ require_once "../database/conn.php";
         case 'update_purchase_status':
             $purchaseId = isset($_POST['purchase_id']) ? e($_POST['purchase_id']) : null;
             $status = isset($_POST['status']) ? e($_POST['status']) : null;
+            $transactionCode = isset($_POST['payment_code']) ? e($_POST['payment_code']) : null;
             if(!$status ||  !$purchaseId){
                 $result['success']  = "0";
                 $result['message']  = "Purchase ID or Status missing!";

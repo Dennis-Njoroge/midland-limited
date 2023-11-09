@@ -2,6 +2,7 @@
 require_once "../database/conn.php";
 	
 	$action = $_POST['action'];
+//	$action = $_GET['action'];
 	//$action = 'order_count';
 	
 	switch ($action) {
@@ -259,14 +260,31 @@ require_once "../database/conn.php";
 		break;
 		
 		case 'update_order_status':
-			$orderId = e($_POST['order_id']);
-			$status  = e($_POST['status']);
+			$orderId = isset($_POST['order_id']) ? e($_POST['order_id']) : null;
+			$status  = isset($_POST['status']) ? e($_POST['status']) : null;
+
+            if (!$orderId || !$status){
+                $result["success"] = "0";
+                $result["message"] = "Order ID or status missing!";
+                echo json_encode($result);
+                mysqli_close($conn);
+                return;
+            }
+
+
 			$query  = mysqli_query($conn,"UPDATE order_tb SET status = '$status' WHERE id ='$orderId'");
 			if($query){
+
+                if($status == 'Approved'){
+                    decrementStock($conn, $orderId);
+                    return;
+                }
+
 				//success
 				if($status=='Delivered'){
 					updateDeliveryTime($orderId);
 				}
+
 				$result["success"] = "1";
 				echo json_encode($result);
 			}else{
@@ -372,4 +390,25 @@ require_once "../database/conn.php";
 		else
 			return 0;
 	}
+    
+    function decrementStock($conn, $orderId){
+        $query = mysqli_query($conn, "
+            UPDATE product_tb AS p
+            JOIN order_details AS od ON p.prod_id = od.prod_id
+            SET p.qty = p.qty - od.qty
+            WHERE od.order_id = '$orderId';
+        ");
+        
+        if ($query){
+            $result["success"] = "1";
+            $result["message"] = "Decremented Stock successfully!";
+            echo json_encode($result);
+        }
+        else{
+            $result["success"] = "0";
+            $result["message"] = "An error occurred!";
+            echo json_encode($result);
+        }
+    }
+    
 ?>

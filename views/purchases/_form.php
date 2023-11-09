@@ -73,13 +73,13 @@ $products = \yii\helpers\ArrayHelper::map(\app\models\Product::find()->all(),'pr
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Quantity</label>
-                                <?= $form->field($model, 'original_qty')->textInput(['placeholder'=>'Enter quantity'])->label(false) ?>
+                                <?= $form->field($model, 'original_qty')->textInput(['placeholder'=>'Enter quantity', 'type'=>'number', 'required'=>true])->label(false) ?>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Buying Price (per unit)</label>
-                                <?= $form->field($model, 'price_per_unit')->textInput([])->label(false) ?>
+                                <?= $form->field($model, 'price_per_unit')->textInput(['placeholder'=>'Enter buying price', 'type'=>'number', 'required'=>true])->label(false) ?>
                             </div>
                         </div>
                     </div>

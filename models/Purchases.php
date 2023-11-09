@@ -37,8 +37,8 @@ class Purchases extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['prod_id', 'supplier_id'], 'required'],
-            [['prod_id', 'supplier_id', 'original_qty', 'available_qty'], 'integer'],
+            [['prod_id', 'supplier_id', 'original_qty'], 'required'],
+            [['prod_id', 'supplier_id'], 'integer'],
             [['description', 'status'], 'string'],
             [['price_per_unit', 'discount', 'final_price_per_unit'], 'number'],
             [['create_on'], 'safe'],

@@ -33,13 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-sm-12">
                             <p class="pull-left">
                                 <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
+                                <?= Html::a('Create Purchase', ['purchases/create'], ['class' => 'btn btn-info ']) ?>
                             </p>
-                            <p class="pull-left">
-                                <?= Html::a('Create Purchase', ['purchase/create'], ['class' => 'btn btn-success ']) ?>
-                            </p>
+                        </div>
+                        <div class="col-md-12">
+
                             <?php ExportMenu::widget([
                                 'dataProvider' => $dataProvider,
                                 'columns' => [
@@ -213,7 +214,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             }
                                         ],
                                         [
-                                           // 'attribute'=>'price',
+                                            // 'attribute'=>'price',
                                             'label'=>'Final Price(ksh)',
                                             'width'=>'10%',
                                             'hAlign'=>'right',
@@ -229,7 +230,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'class' => 'kartik\grid\ActionColumn',
                                             'visibleButtons'=>[
-                                                    'delete'=>false,
+                                                'delete'=>false,
                                             ]
                                         ],
                                     ],

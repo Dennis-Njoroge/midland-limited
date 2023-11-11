@@ -1,13 +1,13 @@
 <?php
 	$host 		= "localhost";
-	$username 	= "hr_usr";
-	$password 	= "U%<2LrWLGAyt";
-	$dbName		= "test";
+	$username 	= "root";
+	$password 	= "";
+	$dbName		= "midland";
 	$conn = mysqli_connect($host,$username,$password,$dbName);
 	date_default_timezone_set("Africa/Nairobi");
 
     //PLEASE CHANGE THE IP ADDRESS TO YOURS HERE
-    $base = 'http://157.245.143.110:5000/';
+    $base = 'http://localhost/midland/';
 
 	//$base = "http://".$ip."/midland/";
     $profile_url = $base."uploads/profile_pics/";

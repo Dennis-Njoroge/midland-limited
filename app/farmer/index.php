@@ -8,25 +8,6 @@ switch ($action) {
         $status	 	 = isset($_POST['status']) ? e($_POST['status']) : null;
 
         $result['read'] = array();
-//        if ($supplierId){
-//            $query = mysqli_query($conn,
-//                "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name
-//                    FROM purchases_tb p
-//                        JOIN supplier_tb s ON p.supplier_id = s.id
-//                        JOIN product_tb prod ON p.prod_id = prod.prod_id
-//                        WHERE ('$supplierId' IS NULL OR p.supplier_id = '$supplierId')
-//                    ORDER BY p.create_on DESC"
-//            );
-//        }
-//        else{
-//            $query = mysqli_query($conn,
-//                "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name
-//                    FROM purchases_tb p
-//                        JOIN supplier_tb s ON p.supplier_id = s.id
-//                        JOIN product_tb prod ON p.prod_id = prod.prod_id
-//                    ORDER BY p.create_on DESC"
-//            );
-//        }
         $query = mysqli_query($conn,
             "SELECT p.*, s.contact_fname, s.contact_sname, s.company_name, prod.prod_name 
                     FROM purchases_tb p 

@@ -66,6 +66,11 @@ class PurchasesController extends Controller
     {
         $model = new Purchases();
 
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return \kartik\form\ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post()) ) {
             $model->purchase_no = strtoupper(substr("MLP", 0, 4)).date("ym").rand(pow(10,3), pow(10,2));
             $model->save();
@@ -87,6 +92,10 @@ class PurchasesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return \kartik\form\ActiveForm::validate($model);
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

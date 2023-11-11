@@ -40,18 +40,31 @@ use rce\material\widgets\Menu as RCEmenu;
                 'url' => ['/users'],
                 'options'=>['class'=>'nav-item'],
             ],
-//                    [
-//                        'label' => 'Products',
-//                        'icon' => 'list',
-//                        'url' => ['/product'],
-//                        'options'=>['class'=>'nav-item'],
-//                    ],
-//                    [
-//                        'label' => 'Pick Up Points',
-//                        'icon' => 'map',
-//                        'url' => ['/pick-up-points'],
-//                        'options'=>['class'=>'nav-item'],
-//                    ],
+            [
+                'label' => 'Pick Up Points',
+                'icon' => 'map',
+                'url' => ['/pick-up-points'],
+                'options'=>['class'=>'nav-item'],
+            ],
+            [
+                'label' => 'Purchases Report',
+                'icon' => 'payment',
+                'url' => ['/purchases'],
+                'options'=>['class'=>'nav-item'],
+            ],
+            [
+                'label' => 'Orders Report',
+                'icon' => 'report',
+                'url' => ['/order'],
+                'options'=>['class'=>'nav-item'],
+            ],
+            [
+                'label' => 'Products',
+                'icon' => 'list',
+                'url' => ['/product'],
+                'options'=>['class'=>'nav-item'],
+            ],
+
 //                    [
 //                        'label' => 'Payments',
 //                        'icon' => 'payment',

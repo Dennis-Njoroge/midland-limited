@@ -10,13 +10,14 @@ use Yii;
  * @property int $id
  * @property string $order_no
  * @property int $user_id
- * @property int|null $payment_id
+ * @property string|null $payment_id
  * @property float $shipping_charge
  * @property float $total_amount
  * @property string $order_date
  * @property string $status
  *
- * @property Payment $payment
+ * @property OrderDetails[] $orderDetails
+ * @property ShippingDetails[] $shippingDetails
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -35,12 +36,11 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['order_no', 'user_id', 'shipping_charge', 'total_amount', 'status'], 'required'],
-            [['user_id', 'payment_id'], 'integer'],
+            [['user_id'], 'integer'],
             [['shipping_charge', 'total_amount'], 'number'],
             [['order_date'], 'safe'],
-            [['order_no', 'status'], 'string', 'max' => 100],
+            [['order_no', 'payment_id', 'status'], 'string', 'max' => 100],
             [['order_no'], 'unique'],
-            [['payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentTb::className(), 'targetAttribute' => ['payment_id' => 'payment_id']],
         ];
     }
 
@@ -53,7 +53,7 @@ class Order extends \yii\db\ActiveRecord
             'id' => 'ID',
             'order_no' => 'Order No',
             'user_id' => 'User ID',
-            'payment_id' => 'Payment ID',
+            'payment_id' => 'Payment Code',
             'shipping_charge' => 'Shipping Charge',
             'total_amount' => 'Total Amount',
             'order_date' => 'Order Date',
@@ -62,13 +62,22 @@ class Order extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Payment]].
+     * Gets query for [[OrderDetails]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getPayment()
+    public function getOrderDetails()
     {
-        return $this->hasOne(Payment::className(), ['payment_id' => 'payment_id']);
+        return $this->hasMany(OrderDetails::className(), ['order_id' => 'id']);
     }
 
+    /**
+     * Gets query for [[ShippingDetails]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShippingDetails()
+    {
+        return $this->hasMany(ShippingDetails::className(), ['order_id' => 'id']);
+    }
 }

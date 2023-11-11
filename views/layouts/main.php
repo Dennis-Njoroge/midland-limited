@@ -4,13 +4,15 @@ use rce\material\widgets\Noti;
 use rce\material\Assets;
 use kartik\select2\Select2Asset;
 
+$viewFile = Yii::$app->controller->action->actionMethod;
+
 if (Yii::$app->controller->action->id === 'login') {
     echo $this->render(
         'main-login',
         ['content' => $content]
     );
 }
-else if (Yii::$app->controller->action->id === 'faq'|| Yii::$app->controller->id === 'product' || Yii::$app->controller->id === 'purchases' ||Yii::$app->controller->id === 'pick-up-points') {
+else if (Yii::$app->controller->action->id === 'faq'|| Yii::$app->controller->id === 'product' || (Yii::$app->controller->id === 'purchases' && ($viewFile === 'actionCreate' || $viewFile === 'actionView'|| $viewFile === 'actionUpdate'))) {
     echo $this->render(
         'content',
         ['content' => $content]

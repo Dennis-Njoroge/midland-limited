@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             </p>
                         </div>
                         <div class="col-md-12">
-
                             <?php ExportMenu::widget([
                                 'dataProvider' => $dataProvider,
                                 'columns' => [

@@ -45,8 +45,8 @@ $config = [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
-                'username' => 'your_email',
-                'password' => 'your password',
+                'username' => 'midlandscorp@gmail.com',
+                'password' => '@midlandscorp01',
                 'port' => '587', // Port 25 is a very common port too
                 'encryption' => 'tls',
             ],
@@ -73,7 +73,7 @@ $config = [
             ],
         ],
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            'enablePrettyUrl' => false,
             'showScriptName' => false,
             //'enableStrictParsing' => false,
             'rules' => [

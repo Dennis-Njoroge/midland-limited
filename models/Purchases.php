@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 
 /**
  * This is the model class for table "purchases_tb".
@@ -37,13 +36,23 @@ class Purchases extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['prod_id', 'supplier_id', 'original_qty'], 'required'],
+            [['prod_id', 'supplier_id', 'original_qty', 'price_per_unit'], 'required'],
             [['prod_id', 'supplier_id'], 'integer'],
             [['description', 'status'], 'string'],
             [['price_per_unit', 'discount', 'final_price_per_unit'], 'number'],
             [['create_on'], 'safe'],
             [['payment_code', 'purchase_no'], 'string', 'max' => 10],
+            [['price_per_unit'], 'validatePrice']
         ];
+    }
+
+    public function validatePrice($attribute,$params){
+        $product = Product::findOne($this->prod_id);
+        if ($product){
+            if ($this->price_per_unit > $product->price){
+                $this->addError($attribute,"Price should not exceed {$product->price}");
+            }
+        }
     }
 
     /**
@@ -64,7 +73,9 @@ class Purchases extends \yii\db\ActiveRecord
             'price_per_unit' => 'Price Per Unit',
             'discount' => 'Discount',
             'final_price_per_unit' => 'Final Price Per Unit',
-            'create_on' => 'Create On',
+            'create_on' => 'Purchase Date',
+
         ];
     }
+
 }

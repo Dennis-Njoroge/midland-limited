@@ -25,7 +25,7 @@ $products = \yii\helpers\ArrayHelper::map(\app\models\Product::find()->all(),'pr
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <?php $form = ActiveForm::begin(); ?>
+                    <?php $form = ActiveForm::begin(['enableAjaxValidation'=>true,'options'=>['autocomplete'=>'off']]); ?>
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <?php

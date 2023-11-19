@@ -29,7 +29,6 @@ if (class_exists('backend\assets\AppAsset')) {
 $bundle = Assets::register($this);
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/ricar2ce/yii2-material-theme/assets');
 
-Select2Asset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

@@ -57,20 +57,33 @@ use rce\material\widgets\Menu as RCEmenu;
                 'icon' => 'report',
                 'url' => ['/order'],
                 'options'=>['class'=>'nav-item'],
+
             ],
             [
-                'label' => 'Products',
+                'label' => 'Order Shipment Report',
+                'icon' => 'payment',
+                'url' => ['/shipping-details'],
+                'options'=>['class'=>'nav-item'],
+            ],
+            [
+                'label' => 'Products Report',
                 'icon' => 'list',
                 'url' => ['/product'],
                 'options'=>['class'=>'nav-item'],
             ],
+            [
+                'label' => 'Payments Reports',
+                'icon' => 'payment',
+                'url' => ['/payment'],
+                'options'=>['class'=>'nav-item'],
+            ],
 
-//                    [
-//                        'label' => 'Payments',
-//                        'icon' => 'payment',
-//                        'url' => ['/payment'],
-//                        'options'=>['class'=>'nav-item'],
-//                    ],
+            [
+                'label' => 'Chats History',
+                'icon' => 'message',
+                'url' => ['/chat'],
+                'options'=>['class'=>'nav-item'],
+            ],
             [
                 'label' => 'Feedback',
                 'icon' => 'message',

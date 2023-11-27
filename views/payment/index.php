@@ -10,6 +10,47 @@ use yii\widgets\Pjax;
 
 $this->title = 'Payments';
 $this->params['breadcrumbs'][] = $this->title;
+$gridColumn = [
+    [
+        'class' => 'kartik\grid\SerialColumn',
+        'pageSummary'=>'Total Amount',
+        'pageSummaryOptions' => ['colspan' => 5],
+
+    ],
+    'payment_id',
+    [
+        'label' => 'Payment Mode',
+        'value' => function ($data){
+            return "MPESA";
+        }
+    ],
+    [
+        'attribute'=> 'user_id',
+        'label'=>'Paid By',
+        'format'=> 'raw',
+        'value'=> function ($data){
+            $user = \app\models\Users::findOne($data['user_id']);
+            if (!$user){
+                return '-';
+            }
+            return $user->username;
+        }
+    ],
+
+    [
+        'label'=>'Date',
+        'attribute'=>'order_date',
+        'format'=>'date',
+    ],
+    [
+        'attribute'=>'total_amount',
+        'format' => ['decimal', 2],
+        'hAlign'=>'right',
+        'pageSummary' => true,
+        'footer' => true,
+
+    ],
+];
 ?>
 <div class="payment-index">
 
@@ -23,43 +64,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <p class="pull-right">
-                                <?= Html::a('Create Payment', ['create'], ['class' => 'btn btn-success']) ?>
-                            </p>
                             <?= ExportMenu::widget([
                                 'dataProvider' => $dataProvider,
-                                'columns' =>[
-                                    [
-                                        'class' => 'kartik\grid\SerialColumn',
-                                        'pageSummary'=>'Total Amount',
-                                        'pageSummaryOptions' => ['colspan' => 5],
-
-                                    ],
-                                    'transaction_no',
-                                    'payment_mode',
-                                    'paid_by',
-                                    [
-                                        'label'=>'Date',
-                                        'attribute'=>'created_on',
-                                        'format'=>'date',
-                                    ],
-                                    [
-                                        'attribute'=>'amount',
-                                        'format' => ['decimal', 2],
-                                        'hAlign'=>'right',
-                                        'pageSummary' => true,
-                                        'footer' => true,
-
-                                    ],
-                                    [
-                                        'class' => 'kartik\grid\ActionColumn',
-                                        'visibleButtons'=>[
-                                            'update'=>false,
-                                            'delete'=>false,
-                                        ]
-                                    ],
-
-                                ],
+                                'columns' => $gridColumn,
                             ]);?>
                         </div>
                         <div class="col-md-12">
@@ -68,38 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= GridView::widget([
                                     'dataProvider' => $dataProvider,
                                     'filterModel' => $searchModel,
-                                    'columns' => [
-                                        [
-                                                'class' => 'kartik\grid\SerialColumn',
-                                            'pageSummary'=>'Total Amount',
-                                            'pageSummaryOptions' => ['colspan' => 5],
-
-                                        ],
-                                        'transaction_no',
-                                        'payment_mode',
-                                        'paid_by',
-                                        [
-                                            'label'=>'Date',
-                                            'attribute'=>'created_on',
-                                            'format'=>'date',
-                                        ],
-                                        [
-                                            'attribute'=>'amount',
-                                            'format' => ['decimal', 2],
-                                            'hAlign'=>'right',
-                                            'pageSummary' => true,
-                                            'footer' => true,
-
-                                        ],
-                                        [
-                                            'class' => 'kartik\grid\ActionColumn',
-                                            'visibleButtons'=>[
-                                                    'update'=>false,
-                                                    'delete'=>false,
-                                            ]
-                                        ],
-
-                                    ],
+                                    'columns' => $gridColumn,
                                     'toggleDataContainer' => ['class' => 'btn-group mr-2'],
                                     // set export properties
                                     'export' => [

@@ -50,11 +50,11 @@ class ShippingDetails extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'order_id' => 'Order ID',
+            'order_id' => 'Order No',
             'full_name' => 'Full Name',
             'phone_no' => 'Phone No',
             'location' => 'Location',
-            'driver_id' => 'Driver ID',
+            'driver_id' => 'Driver Name',
             'delivery_date' => 'Delivery Date',
         ];
     }
@@ -66,6 +66,6 @@ class ShippingDetails extends \yii\db\ActiveRecord
      */
     public function getOrder()
     {
-        return $this->hasOne(OrderTb::className(), ['id' => 'order_id']);
+        return $this->hasOne(Order::className(), ['id' => 'order_id']);
     }
 }

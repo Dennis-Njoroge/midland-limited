@@ -6,6 +6,7 @@ use app\models\Order;
 use Yii;
 use app\models\Payment;
 use app\models\PaymentSearch;
+use app\models\OrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,7 +37,7 @@ class PaymentController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PaymentSearch();
+        $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

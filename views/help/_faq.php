@@ -14,7 +14,7 @@ if (isset($_GET["user"])){
         ?>
             <div class="col-md-6">
             <div class="card">
-                <div class="card-header card-header-info">
+                <div class="card-header card-header-success">
                     <h4 class="card-title"><?= $modelTitle->title?></h4>
                 </div>
                 <div class="card-body">

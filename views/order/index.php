@@ -133,12 +133,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ],
                                     'order_date',
                                 ],
+                                'toggleDataContainer' => ['class' => 'btn-group mr-2'],
+                                // set export properties
+                                'export' => [
+                                    'fontAwesome' => true
+                                ],
+                                // parameters from the demo form
                                 'bordered' => true,
                                 'striped' => true,
                                 'condensed' => false,
                                 'responsive' => true,
                                 'hover' => true,
+                                //'perfectScrollbar'=>true,
                                 'showPageSummary' => true,
+                                'responsiveWrap' => false,
+                                'persistResize' => false,
                             ]); ?>
                             <?php Pjax::end(); ?>
                         </div>

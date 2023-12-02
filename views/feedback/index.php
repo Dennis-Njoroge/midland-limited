@@ -46,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= GridView::widget([
                                 'dataProvider' => $dataProvider,
                                 'filterModel' => $searchModel,
-                                'responsiveWrap'=>false,
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
                                     'email:email',
@@ -84,6 +83,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                     //['class' => 'yii\grid\ActionColumn'],
                                 ],
+                                'toggleDataContainer' => ['class' => 'btn-group mr-2'],
+                                // set export properties
+                                'export' => [
+                                    'fontAwesome' => true
+                                ],
+                                // parameters from the demo form
+                                'bordered' => true,
+                                'striped' => true,
+                                'condensed' => false,
+                                'responsive' => true,
+                                'hover' => true,
+                                //'perfectScrollbar'=>true,
+                                'showPageSummary' => false,
+                                'responsiveWrap' => false,
+                                'persistResize' => false,
                             ]); ?>
                             <?php Pjax::end()?>
                         </div>

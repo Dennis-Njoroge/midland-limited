@@ -1,8 +1,8 @@
 <?php
 
 use kartik\export\ExportMenu;
+use kartik\grid\GridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -76,6 +76,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ],
                                         ],
                                     ],
+                                    'toggleDataContainer' => ['class' => 'btn-group mr-2'],
+                                    // set export properties
+                                    'export' => [
+                                        'fontAwesome' => true
+                                    ],
+                                    // parameters from the demo form
+                                    'bordered' => true,
+                                    'striped' => true,
+                                    'condensed' => false,
+                                    'responsive' => true,
+                                    'hover' => true,
+                                    //'perfectScrollbar'=>true,
+                                    'showPageSummary' => false,
+                                    'responsiveWrap' => false,
+                                    'persistResize' => false,
                                 ]); ?>
                                 <?php Pjax::end()?>
                             </div>

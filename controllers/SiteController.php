@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Otp;
+use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -23,7 +25,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'forgot-password'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -129,5 +131,132 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+
+    public function actionForgotPassword($email){
+        if (!$email){
+            $result["success"] = "O";
+            $result["message"] = "Please Provide Email";
+            return json_encode($result);
+        }
+
+        //check if user exists
+        $user = Users::findOne(['email'=>$email]);
+
+        if (!$user){
+            $result["success"] = "O";
+            $result["message"] = "Invalid Email provided";
+            return json_encode($result);
+        }
+
+        $otp = rand(10000, 99999);
+        $min = 30;
+        $subject = 'Password Reset';
+        $body = "<div style='border:1px dashed grey; padding:5px;  border-radius: 10px '>
+                     <h3><b>Hi {$user->username}, </b></h3>
+                     <p>Please use the OTP below to reset password. Otp will expire in {$min} mins. </p>
+                     <h1 style='alignment: center'>{$otp}</h1>
+                 
+                     <p>Ignore this email if you have not initiated the request.</p>
+              
+                     Regards,<br/>
+                     <b>Midlands Ltd Services.</b>         
+                </div>
+    ";
+        $otpExpiryTime = $min * 60;
+        $this->sendEmail($email, $subject, $body, []);
+        $model = new Otp();
+        $model->otp = $otp;
+        $model->user_id = $user->id;
+        $model->otp_expiry = $otpExpiryTime;
+
+        if ($model->save(false)){
+            $result["success"] = "1";
+            $result["message"] = "OTP sent to your email!";
+            $result["user_id"] = $user->id;
+            return json_encode($result);
+        }
+
+        $result["success"] = "O";
+        $result["message"] = "OTP could not be sent!";
+        return json_encode($result);
+
+
+    }
+
+    public function actionVerifyOtp($userId, $otp){
+        //check if user exists
+        $otpModel = Otp::find()
+            ->where(['user_id' => $userId, 'status' => 'ACTIVE'])
+            ->orderBy('created_on DESC')
+            ->one();
+
+        if (!$otpModel){
+            $result["success"] = "O";
+            $result["message"] = "Invalid user id provided";
+            return json_encode($result);
+        }
+
+
+        if ($otpModel->otp != $otp){
+            $result["success"] = "O";
+            $result["message"] = "Invalid OTP provided!";
+            return json_encode($result);
+        }
+
+
+        $otpModel->status = 'USED';
+        $otpModel->save(false);
+        $result["success"] = "1";
+        $result["message"] = "OTP verified successfully";
+        return json_encode($result);
+
+    }
+
+    public function actionResetPassword($userId, $password){
+        //check if user exists
+        $user = Users::findOne($userId);
+
+        if (!$user){
+            $result["success"] = "0";
+            $result["message"] = "User could not be found";
+            return json_encode($result);
+        }
+
+        $user->password = md5($password);
+        if ($user->save()){
+            $result["success"] = "1";
+            $result["message"] = "Password changed successfully!";
+            $subject = 'Password Reset';
+            $body = "<div style='border:1px dashed grey; padding:5px;  border-radius: 10px '>
+                     <h3><b>Hi {$user->username}, </b></h3>
+                     <p>Your password has been changed successfully. You can now log in with the new password!</p>
+              
+                     Regards,<br/>
+                     <b>Midlands Ltd Services.</b>         
+                </div>
+    ";
+
+            $this->sendEmail($user->email, $subject, $body, []);
+
+
+        }
+        else{
+            $result["success"] = "0";
+            $result["message"] = "An error occurred while processing request!";
+        }
+        return json_encode($result);
+
+    }
+
+    public function sendEmail($to,$subject,$body,$copied){
+        Yii::$app->mailer->compose()
+            ->setTo($to)
+            ->setFrom(['midlandscorp@gmail.com' => Yii::$app->name])
+            ->setSubject($subject)
+            ->setCc($copied)
+            ->setHtmlBody($body)
+            ->send();
     }
 }

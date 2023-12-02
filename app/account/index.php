@@ -167,7 +167,6 @@ switch ($action) {
         }
         mysqli_close($conn);
         break;
-
 }
 function verifyEmail($email){
     global $conn;
@@ -206,6 +205,9 @@ function confirmPassword($id , $current_psw){
     else{
         return false;
     }
+}
+function sendOTP($email){
+
 }
 
 ?>

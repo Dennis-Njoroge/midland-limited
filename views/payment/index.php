@@ -87,7 +87,10 @@ $gridColumn = [
                                     'condensed' => false,
                                     'responsive' => true,
                                     'hover' => true,
+                                    //'perfectScrollbar'=>true,
                                     'showPageSummary' => true,
+                                    'responsiveWrap' => false,
+                                    'persistResize' => false,
 
                                 ]); ?>
                                 <?php Pjax::end(); ?>
